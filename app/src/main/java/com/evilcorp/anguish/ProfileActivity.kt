@@ -36,27 +36,6 @@ class ProfileActivity : AppCompatActivity() {
 
         if (currentDestination != null) {
             val currentFragmentId = currentDestination.id
-/*
-            when (currentFragmentId) {
-                R.id.navigation_home -> {
-                    Toast.makeText(
-                        this, "Home",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                R.id.navigation_dashboard -> {
-                    Toast.makeText(
-                        this, "Nav Block",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                R.id.navigation_notifications -> {
-                    Toast.makeText(
-                        this, "Notification",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }*/
         }
 
     }
