@@ -13,7 +13,7 @@
 <h2>Sign in</h2>
   <img src="https://github.com/user-attachments/assets/01c70e62-aa1c-4ee2-94c1-9653f14132cd">
 <h2>Profile</h2>
-  <img srr="https://github.com/user-attachments/assets/262e9d3c-9145-4944-bc85-bc7fe94842bd">
+  <img src="https://github.com/user-attachments/assets/262e9d3c-9145-4944-bc85-bc7fe94842bd">
 <h2>TimeTable <sup>now and tomorrow</sup></h2>
   <img src="https://github.com/user-attachments/assets/3fdbb560-1d21-4938-bf43-48e8730e6a16">
 <h2>TimeTable <sup>all week</sup></h2>
