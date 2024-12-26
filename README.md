@@ -1,5 +1,5 @@
 <h1>Anguish</h1>
-<h3>Project for mobile apps</h3
+<h3>Project for mobile apps</h3>
 <h2>Added:</h2>
 <ol>
   <h3><li>Ktor (for http requests)</li></h3>
