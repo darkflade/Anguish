@@ -1,5 +1,6 @@
 package com.evilcorp.anguish
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,6 +48,10 @@ class TimeTableWeekActivity : AppCompatActivity() {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this@TimeTableWeekActivity)
                 binding.recyclerView.adapter = timeTableAdapterP
             }
+        }
+
+        binding.backButton.setOnClickListener{
+            this.finish()
         }
 
     }
