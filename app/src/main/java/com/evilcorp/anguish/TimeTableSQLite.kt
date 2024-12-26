@@ -3,7 +3,14 @@ package com.evilcorp.anguish
 import android.content.Context
 import androidx.room.*
 import com.evilcorp.anguish.GetRequestAndEtc.TimeTableClass
+import com.evilcorp.anguish.TimeTableWeekActivity.DaySchedule
 import com.evilcorp.anguish.TimeTableWeekActivity.PrintTimeTableClass
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class TimeTableSQLite (private val context: Context) {
 
@@ -55,12 +62,15 @@ class TimeTableSQLite (private val context: Context) {
         @Query("SELECT * FROM TimeTable WHERE date = :date")
         suspend fun getTimeTableByDate(date: String): List<TimeTableClassSQL>?
 
+        @Query("SELECT DISTINCT date FROM TimeTable")
+        suspend fun getAllDates(): List<String>
+
         @Query("DELETE FROM TimeTable")
         suspend fun clearTimeTable()
 
     }
 
-    suspend fun dbExtraction(date: String): List<PrintTimeTableClass> {
+    private suspend fun dbExtraction(date: String): List<PrintTimeTableClass> {
         val db = AppDatabase.getDatabase(context)
         val timeTableDao = db.timeTableDao()
 
@@ -78,6 +88,45 @@ class TimeTableSQLite (private val context: Context) {
                 campusTitle = t.campusTitle
             )
         }
+    }
+
+    suspend fun dbExtractTwoDays(): List<DaySchedule> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val currentDateTime = ZonedDateTime.now(ZoneId.of("UTC"))
+        val now = currentDateTime
+        val tomorrow = currentDateTime.plusDays(1)
+
+        val lessonsToday = dbExtraction(now.format(formatter))
+        val lessonsTomorrow = dbExtraction(tomorrow.format(formatter))
+
+        val nowDisplay = DayOfWeek.from(now).getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault())
+        val tomorrowDisplay = DayOfWeek.from(tomorrow).getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault())
+
+        return listOf(
+            DaySchedule(dayTitle = nowDisplay, lessons = lessonsToday),
+            DaySchedule(dayTitle = tomorrowDisplay, lessons = lessonsTomorrow)
+        )
+    }
+
+
+    suspend fun dbExtractAll(): List<DaySchedule> {
+        val db = AppDatabase.getDatabase(context)
+        val timeTableDao = db.timeTableDao()
+
+        val uniqueDates = timeTableDao.getAllDates()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        val daySchedules = mutableListOf<DaySchedule>()
+        for (date in uniqueDates) {
+
+            val lessons = dbExtraction(date)
+            val localDate = LocalDate.parse(date, formatter)
+            val dayDisplayName = DayOfWeek.from(localDate).getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault())
+
+            daySchedules.add(DaySchedule(dayTitle = dayDisplayName, lessons = lessons))
+        }
+
+        return daySchedules
     }
 
 
@@ -108,7 +157,6 @@ class TimeTableSQLite (private val context: Context) {
 
     suspend fun clear() {
         val timeTableDao = AppDatabase.getDatabase(context).timeTableDao()
-
         timeTableDao.clearTimeTable()
     }
 

@@ -1,16 +1,18 @@
 package com.evilcorp.anguish
 
-import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.evilcorp.anguish.databinding.ActivityTimeTableWeekBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TimeTableWeekActivity : AppCompatActivity() {
 
+    private lateinit var timeTableAdapterP: TimeTableAdapterP
+    private lateinit var timeTableSQLite: TimeTableSQLite
     private lateinit var binding: ActivityTimeTableWeekBinding
 
     data class PrintTimeTableClass(
@@ -33,19 +35,24 @@ class TimeTableWeekActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        timeTableSQLite = TimeTableSQLite(this)
         binding = ActivityTimeTableWeekBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
-        binding.toolbarLayout.title = title
-        /*binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }*/
-        binding.backButton.setOnClickListener{
-            startActivity(Intent(this, ProfileActivity::class.java))
-            this.finish()
+        CoroutineScope(Dispatchers.IO).launch {
+            val timeTableAll = timeTableSQLite.dbExtractAll()
+
+            withContext(Dispatchers.Main) {
+                timeTableAdapterP = TimeTableAdapterP(timeTableAll)
+                binding.recyclerView.layoutManager = LinearLayoutManager(this@TimeTableWeekActivity)
+                binding.recyclerView.adapter = timeTableAdapterP
+            }
         }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finish()
     }
 }
