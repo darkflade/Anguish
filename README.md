@@ -1,5 +1,5 @@
 <h1>Anguish</h1>
-<h3>Project for mobile apps</h3<br>
+<h3>Project for mobile apps</h3
 <h2>Added:</h2>
 <ol>
   <h3><li>Ktor (for http requests)</li></h3>
@@ -8,7 +8,7 @@
   <h3><li>Encrypted shared prefs ( for storing token and username with password)</h3></li></h3>
   <h3><li>SQLite ( storing timetable )</li></h3>
   <h3><li>Room ( orm for SQLite )</li></h3>
-<br>
+</ol>
 <h1>Layouts</h1>
 <h2>Sign in</h2>
   <img src="https://github.com/user-attachments/assets/01c70e62-aa1c-4ee2-94c1-9653f14132cd">
