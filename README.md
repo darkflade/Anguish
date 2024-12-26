@@ -2,13 +2,16 @@
 <h3>Project for mobile apps</h3<br>
 <h2>Added:</h2>
 <ol>
-  <li><h3>Ktor (for http requests)</h3></li>
-  <li><h3>Serializable class ( handling http request )</h3></li>
-  <li><h3>Saving image profile and Name</h3></li>
-  <li><h3>Encrypted shared prefs ( for storing token and username with password)</h3></li>
-  <li><h3>SQLite ( storing timetable )</h3></li>
-  <li><h3>Room ( orm for SQLite )</h3></li>
+  <h3><li>Ktor (for http requests)</li></h3>
+  <h3><li>Serializable class ( handling http request )</li></h3>
+  <h3><li>Saving image profile and Name</li></h3>
+  <h3><li>Encrypted shared prefs ( for storing token and username with password)</h3></li></h3>
+  <h3><li>SQLite ( storing timetable )</li></h3>
+  <h3><li>Room ( orm for SQLite )</li></h3>
 <br>
 <h1>Layouts</h1>
 <h2>Sign in</h2>
+<h2>Profile</h2>
+<h2>TimeTable <sup>now and tomorrow</sup></h2>
+<h2>TimeTable <sup>all week</sup></h2>
 
