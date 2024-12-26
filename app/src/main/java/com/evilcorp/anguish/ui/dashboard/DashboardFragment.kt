@@ -12,7 +12,6 @@ import com.evilcorp.anguish.GetRequestAndEtc
 import com.evilcorp.anguish.TimeTableAdapterP
 import com.evilcorp.anguish.TimeTableSQLite
 import com.evilcorp.anguish.TimeTableWeekActivity
-import com.evilcorp.anguish.TimeTableWeekActivity.DaySchedule
 import com.evilcorp.anguish.databinding.FragmentDashboardBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,21 +45,11 @@ class DashboardFragment : Fragment() {
         timeTableSQLite = TimeTableSQLite(requireContext())
 
         CoroutineScope(Dispatchers.IO).launch {
-            val now = timeTableSQLite.dbExtraction("2024-12-25")
-            val tomorrow = timeTableSQLite.dbExtraction("2024-12-26")
+
+            val twoDay = timeTableSQLite.dbExtractTwoDays()
 
             withContext(Dispatchers.Main) {
-                timeTableAdapterP = TimeTableAdapterP(listOf(DaySchedule(
-                            dayTitle = "Now",
-                            lessons = now
-                        )
-                    ,
-                        DaySchedule(
-                            dayTitle = "Tomorrow",
-                            lessons = tomorrow
-                        )
-                    )
-                )
+                timeTableAdapterP = TimeTableAdapterP(twoDay)
                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerView.adapter = timeTableAdapterP
             }
