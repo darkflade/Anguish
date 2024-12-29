@@ -2,7 +2,6 @@ package com.evilcorp.anguish
 
 import android.content.Context
 import androidx.room.*
-import com.evilcorp.anguish.BallNetwork.FacultyRecord
 import com.evilcorp.anguish.BallNetwork.Section
 import com.evilcorp.anguish.BallsActivity.PrintControlPont
 import com.evilcorp.anguish.BallsActivity.Rating
@@ -77,10 +76,10 @@ class RatingSQLite (private val context: Context) {
         suspend fun getDisciplineSubTitles(title: String): List<DisciplineDetail>
 
         @Query("SELECT DISTINCT faculty FROM Disciplines")
-        suspend fun getAllFaculities(): List<String>
+        suspend fun getAllFaculties(): List<String>
 
         @Query("SELECT DISTINCT title FROM DisciplineDetails")
-        suspend fun getAllDesciplines(): List<String>
+        suspend fun getAllDisciplines(): List<String>
 
         @Query("DELETE FROM Disciplines")
         suspend fun clearRating()
@@ -119,7 +118,7 @@ class RatingSQLite (private val context: Context) {
         val db = AppDatabase.getDatabase(context)
         val ratingDao = db.ratingDao()
 
-        val uniqueFaculties = ratingDao.getAllFaculities()
+        val uniqueFaculties = ratingDao.getAllFaculties()
 
         val facultyDisciplines = mutableListOf<FacultyDiscipline>()
         for (faculty in uniqueFaculties) {
@@ -135,7 +134,7 @@ class RatingSQLite (private val context: Context) {
         val db = AppDatabase.getDatabase(context)
         val ratingDao = db.ratingDao()
 
-        val uniqueTitles = ratingDao.getAllDesciplines()
+        val uniqueTitles = ratingDao.getAllDisciplines()
 
         val ratings = mutableListOf<Rating>()
         for (title in uniqueTitles) {
