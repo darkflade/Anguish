@@ -7,13 +7,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.evilcorp.anguish.databinding.ActivityProfileBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
     private lateinit var network: GetRequestAndEtc
-    private val client = HttpClient(CIO)
 
 
 
@@ -43,7 +40,6 @@ class ProfileActivity : AppCompatActivity() {
 
 
     override fun onDestroy() {
-        client.close()
         super.onDestroy()
     }
 }

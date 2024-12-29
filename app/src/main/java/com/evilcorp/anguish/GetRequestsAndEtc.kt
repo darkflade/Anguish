@@ -40,9 +40,11 @@ class GetRequestAndEtc(private val context: Context) {
 
     private lateinit var tokenManager: TokenManager
     private lateinit var timeTableSQLite: TimeTableSQLite
+    private lateinit var ballNetwork: BallNetwork
     private val client = HttpClient(CIO) {
         install(ContentNegotiation){
             json(Json {
+                coerceInputValues = true
                 ignoreUnknownKeys = true
             })
         }
@@ -102,7 +104,6 @@ class GetRequestAndEtc(private val context: Context) {
         val CampusTitle: String
     )
 
-    data class TimeTableData(val today: List<TimeTableClass>, val tomorrow: List<TimeTableClass>)
 
     suspend fun authenticateUser(username: String, password: String): String {
 
@@ -164,37 +165,19 @@ class GetRequestAndEtc(private val context: Context) {
             }
     }
 
-    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    suspend fun getUserBalls(token: String): String {
 
-    //rewrite
-    suspend fun getTimeTableFor2Days(toString: String): TimeTableData {
+        ballNetwork = BallNetwork(context, client)
 
-
-        val currentDateTime = ZonedDateTime.now(ZoneId.of("UTC")).format(formatter)
-        val tomorrowDateTime = ZonedDateTime.now(ZoneId.of("UTC")).plusDays(1).format(formatter)
-        tokenManager = TokenManager(context)
-        val token = tokenManager.getAccessToken()
-
-        try {
-            val todayData: List<TimeTableClass> = client.get("https://papi.mrsu.ru/v1/StudentTimeTable?date=$currentDateTime") {
-                headers {
-                    append(HttpHeaders.Authorization, "Bearer $token")
-                }
-            }.body()
-
-            val tomorrowData: List<TimeTableClass> = client.get("https://papi.mrsu.ru/v1/StudentTimeTable?date=$tomorrowDateTime") {
-                headers {
-                    append(HttpHeaders.Authorization, "Bearer $token")
-                }
-            }.body()
-
-            return TimeTableData(todayData, tomorrowData)
-
-        } catch (e: Exception) {
-            println("Error fetching time table: $e")
-            throw e
+        if (ballNetwork.getUserRating(token) != "Success") {
+            return "Some Error in getUserDisciplines"
         }
+
+        return "Success"
     }
+
+
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     suspend fun getTimeTableFor2Weeks(token: String) {
         timeTableSQLite = TimeTableSQLite(context)
@@ -214,21 +197,6 @@ class GetRequestAndEtc(private val context: Context) {
             }
         }
         saveDataToTextFile("UpdateDate", ZonedDateTime.now(ZoneId.of("UTC")).format(formatter))
-    }
-
-    fun getTimeTablePosition(): ZonedDateTime {
-
-        val now = ZonedDateTime.now(ZoneId.of("UTC"))
-        val updDateStr = File(context.filesDir, "UpdateDate.txt").readText()
-        val updDate = ZonedDateTime.of(LocalDate.parse(updDateStr, formatter), LocalTime.MIN, ZoneId.of("UTC"))
-
-        val difference = ChronoUnit.DAYS.between(now, updDate)
-        val remainder = difference % 14
-
-        val newUpdateDate = updDate.plusDays(remainder.toLong())
-
-        return newUpdateDate
-
     }
 
     fun needUpdateTimeTable(): Boolean {
@@ -268,7 +236,20 @@ class GetRequestAndEtc(private val context: Context) {
         }
     }
 
+    fun getTimeTablePosition(): ZonedDateTime {
 
+        val now = ZonedDateTime.now(ZoneId.of("UTC"))
+        val updDateStr = File(context.filesDir, "UpdateDate.txt").readText()
+        val updDate = ZonedDateTime.of(LocalDate.parse(updDateStr, formatter), LocalTime.MIN, ZoneId.of("UTC"))
+
+        val difference = ChronoUnit.DAYS.between(now, updDate)
+        val remainder = difference % 14
+
+        val newUpdateDate = updDate.plusDays(remainder.toLong())
+
+        return newUpdateDate
+
+    }
 
     fun saveDataToTextFile(fileName: String, dataText: String) {
         try {

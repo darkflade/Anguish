@@ -10,8 +10,16 @@ import com.evilcorp.anguish.databinding.FragmentNotificationsBinding
 class NotificationsFragment : Fragment() {
 
     private var _binding: FragmentNotificationsBinding? = null
-
     private val binding get() = _binding!!
+
+    data class PrintDiscipline(
+        val name: String
+    )
+
+    data class FacultyDiscipline(
+        val faculty: String,
+        val disciplines: List<PrintDiscipline>
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
