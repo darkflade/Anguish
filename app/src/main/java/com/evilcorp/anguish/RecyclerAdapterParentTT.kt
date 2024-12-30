@@ -30,7 +30,7 @@ RecyclerView.Adapter<TimeTableAdapterP.TimeTableViewHolderP>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeTableViewHolderP {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.day_lesson, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_lesson_parent, parent, false)
         return TimeTableViewHolderP(view)
     }
 

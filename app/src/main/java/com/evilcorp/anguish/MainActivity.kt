@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         async { network.getTimeTableFor2Weeks(token) }
+                        async { network.getUserBalls(token) }
 
                         startActivity(Intent(this@MainActivity, ProfileActivity::class.java)) //------------------Ne poteryasya
                         finish()

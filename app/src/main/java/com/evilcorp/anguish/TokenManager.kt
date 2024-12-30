@@ -1,12 +1,14 @@
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.evilcorp.anguish.RatingSQLite
 import com.evilcorp.anguish.TimeTableSQLite
 
 
 class TokenManager(private val context: Context) {
 
     private lateinit var timeTableSQLite: TimeTableSQLite
+    private lateinit var ratingSQLite: RatingSQLite
 
     //val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 /*
@@ -73,7 +75,11 @@ class TokenManager(private val context: Context) {
 
     suspend fun clearCredentials() {
         timeTableSQLite = TimeTableSQLite(context)
+        ratingSQLite = RatingSQLite(context)
+
         timeTableSQLite.clear()
+        ratingSQLite.clear()
+
         with(sharedPreferences.edit()) {
             remove("USERNAME")
             remove("PASSWORD")

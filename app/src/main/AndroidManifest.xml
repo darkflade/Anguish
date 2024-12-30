@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Anguish"
         tools:targetApi="31">
         <activity
+            android:name=".BallsActivity"
+            android:exported="false" />
+        <activity
             android:name=".TimeTableWeekActivity"
             android:exported="false"
             android:label="@string/title_activity_time_table_week"
