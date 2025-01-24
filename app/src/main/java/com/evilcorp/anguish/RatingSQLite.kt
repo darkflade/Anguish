@@ -5,8 +5,8 @@ import androidx.room.*
 import com.evilcorp.anguish.BallNetwork.Section
 import com.evilcorp.anguish.BallsActivity.PrintControlPont
 import com.evilcorp.anguish.BallsActivity.Rating
-import com.evilcorp.anguish.ui.notifications.NotificationsFragment.FacultyDiscipline
-import com.evilcorp.anguish.ui.notifications.NotificationsFragment.PrintDiscipline
+import com.evilcorp.anguish.ui.faculty.FacultyFragment.FacultyDiscipline
+import com.evilcorp.anguish.ui.faculty.FacultyFragment.PrintDiscipline
 
 class RatingSQLite (private val context: Context) {
 
@@ -72,14 +72,14 @@ class RatingSQLite (private val context: Context) {
         @Query("SELECT * FROM Disciplines WHERE faculty = :faculty")
         suspend fun getDisciplines(faculty: String): List<Discipline>
 
-        @Query("SELECT * FROM DisciplineDetails WHERE title = :title")
-        suspend fun getDisciplineSubTitles(title: String): List<DisciplineDetail>
+        @Query("SELECT * FROM DisciplineDetails WHERE title = :title and disciplineId = :id")
+        suspend fun getDisciplineSubTitles(title: String, id: Int): List<DisciplineDetail>
 
         @Query("SELECT DISTINCT faculty FROM Disciplines")
         suspend fun getAllFaculties(): List<String>
 
-        @Query("SELECT DISTINCT title FROM DisciplineDetails")
-        suspend fun getAllDisciplines(): List<String>
+        @Query("SELECT DISTINCT title FROM DisciplineDetails WHERE disciplineId = :id")
+        suspend fun getAllDisciplines(id: Int): List<String>
 
         @Query("DELETE FROM Disciplines")
         suspend fun clearRating()
@@ -93,16 +93,17 @@ class RatingSQLite (private val context: Context) {
 
         return disciplines.map { t ->
             PrintDiscipline(
+                id = t.id,
                 name = t.discipline
             )
         }
     }
 
-    private suspend fun dbExtractionControlPoints(title: String): List<PrintControlPont> {
+    private suspend fun dbExtractionControlPoints(title: String, id: Int): List<PrintControlPont> {
         val db = AppDatabase.getDatabase(context)
         val ratingDao = db.ratingDao()
 
-        val controlPoints = ratingDao.getDisciplineSubTitles(title)
+        val controlPoints = ratingDao.getDisciplineSubTitles(title, id)
 
         return controlPoints.map { t ->
             PrintControlPont(
@@ -130,16 +131,16 @@ class RatingSQLite (private val context: Context) {
         return facultyDisciplines
     }
 
-    suspend fun dbExtractAllRating(): List<Rating> {
+    suspend fun dbExtractAllRating(id: Int): List<Rating> {
         val db = AppDatabase.getDatabase(context)
         val ratingDao = db.ratingDao()
 
-        val uniqueTitles = ratingDao.getAllDisciplines()
+        val uniqueTitles = ratingDao.getAllDisciplines(id)
 
         val ratings = mutableListOf<Rating>()
         for (title in uniqueTitles) {
 
-            val controlPoints = dbExtractionControlPoints(title)
+            val controlPoints = dbExtractionControlPoints(title, id)
             ratings.add(Rating(title = title, controlPoints = controlPoints))
         }
 

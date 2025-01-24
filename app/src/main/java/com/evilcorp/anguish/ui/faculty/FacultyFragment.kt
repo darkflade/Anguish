@@ -1,33 +1,33 @@
-package com.evilcorp.anguish.ui.notifications
+package com.evilcorp.anguish.ui.faculty
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.evilcorp.anguish.FacultyAdapter
+import com.evilcorp.anguish.BallsActivity
 import com.evilcorp.anguish.FacultyAdapterP
-import com.evilcorp.anguish.RatingAdapterP
 import com.evilcorp.anguish.RatingSQLite
-import com.evilcorp.anguish.TimeTableAdapterP
-import com.evilcorp.anguish.TimeTableSQLite
-import com.evilcorp.anguish.databinding.FragmentNotificationsBinding
+import com.evilcorp.anguish.databinding.FragmentFacultyBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NotificationsFragment : Fragment() {
+class FacultyFragment : Fragment() {
 
     private lateinit var facultyAdapterP: FacultyAdapterP
     private lateinit var ratingSQLite: RatingSQLite
 
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentFacultyBinding? = null
     private val binding get() = _binding!!
 
     data class PrintDiscipline(
+        val id: Int,
         val name: String
     )
 
@@ -42,7 +42,7 @@ class NotificationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentFacultyBinding.inflate(inflater, container, false)
         val root: View = binding.root
         ratingSQLite = RatingSQLite(requireContext())
 
@@ -51,7 +51,12 @@ class NotificationsFragment : Fragment() {
             val subjects = ratingSQLite.dbExtractAllFaculty()
 
             withContext(Dispatchers.Main) {
-                facultyAdapterP = FacultyAdapterP(subjects)
+                facultyAdapterP = FacultyAdapterP(subjects){ disciplineId ->
+                    Log.e("id", disciplineId.toString())
+                    val intent = Intent(requireContext(), BallsActivity::class.java)
+                    intent.putExtra("discipline_id", disciplineId)
+                    startActivity(intent)
+                }
                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerView.adapter = facultyAdapterP
             }

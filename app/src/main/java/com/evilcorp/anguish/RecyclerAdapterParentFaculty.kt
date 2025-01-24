@@ -7,25 +7,31 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.evilcorp.anguish.FacultyAdapterP.FacultyViewHolderP
-import com.evilcorp.anguish.ui.notifications.NotificationsFragment.FacultyDiscipline
-import com.evilcorp.anguish.ui.notifications.NotificationsFragment.PrintDiscipline
+import com.evilcorp.anguish.ui.faculty.FacultyFragment.FacultyDiscipline
+import com.evilcorp.anguish.ui.faculty.FacultyFragment.PrintDiscipline
 
 
-class FacultyAdapterP(private val parent: List<FacultyDiscipline>) :
+class FacultyAdapterP(
+    private val parent: List<FacultyDiscipline>,
+    private val onChildItemClick: (Int) -> Unit
+) :
 RecyclerView.Adapter<FacultyViewHolderP>() {
 
     class FacultyViewHolderP(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.faculty_title)
         private val childRecyclerView: RecyclerView = itemView.findViewById(R.id.child_faculty)
 
-        fun bind(parent: FacultyDiscipline) {
+        fun bind(parent: FacultyDiscipline, onChildItemClick: (Int) -> Unit) {
             title.text = parent.faculty
-            setupChildRecyclerView(parent.disciplines)
+            setupChildRecyclerView(parent.disciplines, onChildItemClick)
         }
-        private fun setupChildRecyclerView(discipline: List<PrintDiscipline>) {
-            val childAdapter = FacultyAdapter(discipline)
-            childRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
-            childRecyclerView.adapter = childAdapter
+        private fun setupChildRecyclerView(
+            disciplines: List<PrintDiscipline>,
+            onChildItemClick: (Int) -> Unit
+        ) {
+                val childAdapter = FacultyAdapter(disciplines, onChildItemClick)
+                childRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
+                childRecyclerView.adapter = childAdapter
         }
     }
 
@@ -35,7 +41,7 @@ RecyclerView.Adapter<FacultyViewHolderP>() {
     }
 
     override fun onBindViewHolder(holder: FacultyViewHolderP, position: Int) {
-        holder.bind(parent[position])
+        holder.bind(parent[position], onChildItemClick)
     }
 
     override fun getItemCount(): Int {

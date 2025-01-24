@@ -14,12 +14,15 @@
 
     <TextView
         android:id="@+id/subject_title"
-        android:layout_width="190dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="4dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:padding="8dp"
         android:text="Subject"
         android:textSize="16sp"
-        android:textColor="@color/lightGreen"
+        android:theme="@style/Bubs"
+        android:background="@drawable/square_rounded"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

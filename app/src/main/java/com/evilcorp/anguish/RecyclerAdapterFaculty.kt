@@ -4,16 +4,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.evilcorp.anguish.ui.notifications.NotificationsFragment.PrintDiscipline
+import com.evilcorp.anguish.ui.faculty.FacultyFragment.PrintDiscipline
 
-class FacultyAdapter(private val facultyList: List<PrintDiscipline>) :
+class FacultyAdapter(
+    private val facultyList: List<PrintDiscipline>,
+    private val onItemClicked: (Int) -> Unit
+) :
     RecyclerView.Adapter<FacultyAdapter.FacultyViewHolder>() {
 
     class FacultyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.subject_title)
 
-        fun bind(faculty: PrintDiscipline) {
+        fun bind(faculty: PrintDiscipline, onItemClicked: (Int) -> Unit) {
             title.text = faculty.name
+
+            title.setOnClickListener {
+                onItemClicked(faculty.id)
+            }
         }
     }
 
@@ -23,7 +30,7 @@ class FacultyAdapter(private val facultyList: List<PrintDiscipline>) :
     }
 
     override fun onBindViewHolder(holder: FacultyViewHolder, position: Int) {
-        holder.bind(facultyList[position])
+        holder.bind(facultyList[position], onItemClicked)
     }
 
     override fun getItemCount(): Int {
