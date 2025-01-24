@@ -1,6 +1,7 @@
 package com.evilcorp.anguish
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.evilcorp.anguish.TimeTableWeekActivity
@@ -34,14 +35,22 @@ class BallsActivity : AppCompatActivity() {
         binding = ActivityTimeTableWeekBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val subjectId = intent.getIntExtra("discipline_id", 0)
+
+        //Toast.makeText(this, subjectId.toString(), Toast.LENGTH_LONG).show();
+
         CoroutineScope(Dispatchers.IO).launch {
-            val ratingAll = ratingSQLite.dbExtractAllRating()
+            //val ratingAll = ratingSQLite.dbExtractAllRating()
+            val rating = ratingSQLite.dbExtractAllRating(subjectId)
 
             withContext(Dispatchers.Main) {
-                ratingAdapterP = RatingAdapterP(ratingAll)
+                ratingAdapterP = RatingAdapterP(rating)
                 binding.recyclerView.layoutManager = LinearLayoutManager(this@BallsActivity)
                 binding.recyclerView.adapter = ratingAdapterP
             }
+        }
+        binding.backButton.setOnClickListener{
+            this.finish()
         }
     }
 

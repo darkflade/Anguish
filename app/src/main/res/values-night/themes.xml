@@ -17,4 +17,9 @@
         <item name="android:textColor">@color/gigaGreen</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="Bubs" parent="ThemeOverlay.AppCompat">
+        <item name="backgroundTint">@color/light_grey</item>
+        <item name="android:textColor">@color/lightGreen</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>
