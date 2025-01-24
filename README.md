@@ -18,4 +18,8 @@
   <img src="https://github.com/user-attachments/assets/3fdbb560-1d21-4938-bf43-48e8730e6a16">
 <h2>TimeTable <sup>all week</sup></h2>
   <img src="https://github.com/user-attachments/assets/76311d14-5d96-4597-973a-91946c7065dc">
+<h2>Subject Choose</h2>
+  <img src="https://github.com/user-attachments/assets/90005f17-dac1-4f72-8c73-cf98afb5b484">
+<h2>Marks</h2>
+  <img src="https://github.com/user-attachments/assets/4abe499a-6f6a-4bd8-8c94-49fa30955ab3">
 
