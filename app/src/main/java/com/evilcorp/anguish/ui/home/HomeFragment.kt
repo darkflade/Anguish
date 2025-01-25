@@ -4,6 +4,7 @@ import TokenManager
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,16 +45,22 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
 //------------------------------Load a fucking picture and txt
+        try {
+            val inputStream = File(requireContext().filesDir, "profile_photo.jpg").inputStream()
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            binding.profileImage.setImageBitmap(bitmap)
+        } catch (e: Exception) {
+            Log.e("ProfileImage", "Error loading profile photo: ${e.message}")
+        }
 
-        val inputStream = File(requireContext().filesDir, "profile_photo.jpg").inputStream()
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        binding.profileImage.setImageBitmap(bitmap)
-
-        val userData = File(requireContext().filesDir, "UserData.txt").readText().split(" ")
-        binding.NameProfile.text = userData[0]
-        binding.LastNameProfile.text = userData[1]
-        binding.ThirdNameProfile.text = userData[2]
-
+        try {
+            val userData = File(requireContext().filesDir, "UserData.txt").readText().split(" ")
+            binding.NameProfile.text = userData[0]
+            binding.LastNameProfile.text = userData[1]
+            binding.ThirdNameProfile.text = userData[2]
+        } catch (e: Exception) {
+            Log.e("ProfileImage", "Error loading profile photo: ${e.message}")
+        }
 
 
         tokenManager = TokenManager(requireContext())

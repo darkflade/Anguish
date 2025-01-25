@@ -1,6 +1,7 @@
 package com.evilcorp.anguish
 
 import TokenManager
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -70,8 +71,8 @@ class MainActivity : AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.SignInButton)
         button.setOnClickListener{
-            val username = findViewById<EditText>(R.id.EMail).text.toString();
-            val password = findViewById<EditText>(R.id.Password).text.toString();
+            val username = findViewById<EditText>(R.id.EMail).text.toString()
+            val password = findViewById<EditText>(R.id.Password).text.toString()
 
             if (username == "" && password == "") {
                 Toast.makeText(
@@ -137,9 +138,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Modify showLoadingDialog to keep a reference to the dialog
     var dialog: Dialog? = null
 
+    @SuppressLint("InflateParams")
     fun showLoadingDialog(text: String) {
         dialog = Dialog(this).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)

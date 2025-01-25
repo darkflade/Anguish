@@ -2,7 +2,6 @@ package com.evilcorp.anguish.ui.faculty
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +51,6 @@ class FacultyFragment : Fragment() {
 
             withContext(Dispatchers.Main) {
                 facultyAdapterP = FacultyAdapterP(subjects){ disciplineId ->
-                    Log.e("id", disciplineId.toString())
                     val intent = Intent(requireContext(), BallsActivity::class.java)
                     intent.putExtra("discipline_id", disciplineId)
                     startActivity(intent)

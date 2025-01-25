@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
@@ -51,9 +53,9 @@ class TokenManager(private val context: Context) {
         return sharedPreferences.getString("ACCESS_TOKEN", null)
     }
 
-    fun getRefreshToken(): String? {
+    /*fun getRefreshToken(): String? {
         return sharedPreferences.getString("REFRESH_TOKEN", null)
-    }
+    }*/
     /*
     val response: HttpResponse = client.post("https://p.mrsu.ru/OAuth/Token") {
     contentType(ContentType.Application.FormUrlEncoded)
@@ -88,7 +90,7 @@ class TokenManager(private val context: Context) {
             apply()
         }
     }
-
+/*
     suspend fun clearToken() {
         timeTableSQLite = TimeTableSQLite(context)
         timeTableSQLite.clear()
@@ -98,5 +100,5 @@ class TokenManager(private val context: Context) {
             apply()
         }
     }
-
+*/
 }

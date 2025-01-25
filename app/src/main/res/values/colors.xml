@@ -10,4 +10,7 @@
     <color name="lightGreen">#EEFFCC</color>
     <color name="orange">#ff9500</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cornflower_blue_light">#9BDAEB</color>
+    <color name="cornflower_blue">#3B7AEB</color>
+    <color name="yellow">#FF0</color>
 </resources>

@@ -12,7 +12,7 @@ import com.evilcorp.anguish.TimeTableWeekActivity.PrintTimeTableClass
 
 
 class TimeTableAdapterP(private val dayScheduleList: List<DaySchedule>) :
-RecyclerView.Adapter<TimeTableAdapterP.TimeTableViewHolderP>() {
+RecyclerView.Adapter<TimeTableViewHolderP>() {
 
     class TimeTableViewHolderP(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.day_title)

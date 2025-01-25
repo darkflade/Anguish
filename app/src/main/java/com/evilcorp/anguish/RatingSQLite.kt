@@ -31,8 +31,8 @@ class RatingSQLite (private val context: Context) {
         val order: Int,
         val title: String,
         val subTitle: String?,
-        val ball: Int,
-        val maxBall: Int
+        val ball: Double,
+        val maxBall: Double
     )
 
 
@@ -41,7 +41,7 @@ class RatingSQLite (private val context: Context) {
             Discipline::class,
             DisciplineDetail::class
                    ],
-        version = 1
+        version = 2
     )
     abstract class AppDatabase : RoomDatabase() {
         abstract fun ratingDao(): RatingDao
@@ -181,8 +181,8 @@ class RatingSQLite (private val context: Context) {
                     order = section.Order,
                     title = section.Title,
                     subTitle = controlDot.Title,
-                    ball = controlDot.Mark?.Ball?.toInt() ?: 0,
-                    maxBall = controlDot.MaxBall.toInt()
+                    ball = controlDot.Mark?.Ball?.toDouble() ?: 0.0,
+                    maxBall = controlDot.MaxBall
                 )
 
                 ratingDao.insertDisciplineDetail(disciplineDetail)

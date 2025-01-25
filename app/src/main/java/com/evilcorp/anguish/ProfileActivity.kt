@@ -27,13 +27,7 @@ class ProfileActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        val currentDestination = navController.currentDestination
-
         network.needUpdateTimeTable()
-
-        if (currentDestination != null) {
-            val currentFragmentId = currentDestination.id
-        }
 
     }
 
