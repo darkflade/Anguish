@@ -28,11 +28,9 @@ import org.json.JSONObject
 import java.io.File
 import java.net.URL
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.Base64
 
 
@@ -236,7 +234,7 @@ class GetRequestAndEtc(private val context: Context) {
         }
     }
 
-    fun getTimeTablePosition(): ZonedDateTime {
+    /*fun getTimeTablePosition(): ZonedDateTime {
 
         val now = ZonedDateTime.now(ZoneId.of("UTC"))
         val updDateStr = File(context.filesDir, "UpdateDate.txt").readText()
@@ -249,7 +247,7 @@ class GetRequestAndEtc(private val context: Context) {
 
         return newUpdateDate
 
-    }
+    }*/
 
     fun saveDataToTextFile(fileName: String, dataText: String) {
         try {

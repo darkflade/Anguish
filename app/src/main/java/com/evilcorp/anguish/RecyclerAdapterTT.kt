@@ -1,4 +1,5 @@
 package com.evilcorp.anguish
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +16,12 @@ class TimeTableAdapter(private val timeTableList: List<PrintTimeTableClass>) :
         private val numberTextView: TextView = itemView.findViewById(R.id.numberTextView)
         private val teacherTextView: TextView = itemView.findViewById(R.id.teacherTextView)
 
+        @SuppressLint("SetTextI18n")
         fun bind(timeTableClass: PrintTimeTableClass) {
-            titleTextView.text = timeTableClass.title ?: ""
-            auditoryTextView.text = "${ timeTableClass.auditNumber } (${ timeTableClass.campusTitle })" ?: ""
-            numberTextView.text = timeTableClass.number?.toString() ?: ""
-            teacherTextView.text = timeTableClass.teacher?.replace(" ", "\n") ?: ""
+            titleTextView.text = timeTableClass.title
+            auditoryTextView.text = "${ timeTableClass.auditNumber } (${ timeTableClass.campusTitle })"
+            numberTextView.text = timeTableClass.number.toString()
+            teacherTextView.text = timeTableClass.teacher.replace(" ", "\n")
         }
     }
 

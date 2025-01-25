@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.evilcorp.anguish.BallsActivity.PrintControlPont
@@ -18,12 +19,18 @@ RecyclerView.Adapter<RatingViewHolderP>() {
         private val title: TextView = itemView.findViewById(R.id.rating_title)
         private val childRecyclerView: RecyclerView = itemView.findViewById(R.id.child_rating)
 
-        fun bind(parent: Rating) {
+        fun bind(parent: Rating, isLast: Boolean) {
             title.text = parent.title
-            setupChildRecyclerView(parent.controlPoints)
+
+            if (isLast) {
+                title.setTextColor(ContextCompat.getColor(itemView.context, R.color.gigaGreen))
+            } else {
+                title.setTextColor(ContextCompat.getColor(itemView.context, R.color.cornflower_blue))
+            }
+            setupChildRecyclerView(parent.controlPoints, isLast)
         }
-        private fun setupChildRecyclerView(points: List<PrintControlPont>) {
-            val childAdapter = RatingAdapter(points)
+        private fun setupChildRecyclerView(points: List<PrintControlPont>, isLast: Boolean) {
+            val childAdapter = RatingAdapter(points, isLast)
             childRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
             childRecyclerView.adapter = childAdapter
         }
@@ -35,7 +42,9 @@ RecyclerView.Adapter<RatingViewHolderP>() {
     }
 
     override fun onBindViewHolder(holder: RatingViewHolderP, position: Int) {
-        holder.bind(parent[position])
+        val isLast = position >= parent.size - 3
+        holder.bind(parent[position], isLast)
+
     }
 
     override fun getItemCount(): Int {
